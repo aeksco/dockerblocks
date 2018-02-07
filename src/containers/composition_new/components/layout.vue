@@ -3,13 +3,13 @@
   <div class='container'>
     <div class='row'>
       <div class='col-lg-6 bg-dark'>
-        <StructViewer :struct='struct' :structVal='obj'/>
+        <StructViewer :struct='struct' :structVal='obj' />
         <!-- <d3-network ref='net' :net-nodes='nodes' :net-links='links' :options='options' /> -->
       </div>
 
       <div class='col-lg-6'>
         <!-- <pre>{{struct}}</pre> -->
-        <StructForm :struct='struct' />
+        <StructForm :struct='struct' label="Restaurant" />
 
       </div>
     </div>

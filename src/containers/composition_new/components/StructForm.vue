@@ -14,7 +14,17 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-12 text-right">
+        <button class='my-2 mx-2 btn btn-sm btn-outline-success'>
+          <i class="fa fa-plus"></i>
+          Add {{ label }}
+        </button>
+      </div>
+    </div>
+
   </li>
+
 
 </template>
 
@@ -24,11 +34,15 @@
 
 export default {
   name: 'StructForm',
-  props: ['struct'],
+  props: ['struct', 'label'],
   beforeCreate () {
     this.$options.components.Field = require('./Field.vue').default
   }
 }
 </script>
 
-
+<style type="text/css" scoped>
+  button.btn-outline-success {
+    text-transform: capitalize;
+  }
+</style>

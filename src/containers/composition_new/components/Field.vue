@@ -14,20 +14,12 @@
 
         <input class='form-control' type="number" v-if="value.type === 'number'">
 
-        <StructForm :struct="value.struct" v-if="value.type === 'object'"/>
+        <ul class="list-group" v-if="value.type === 'object'">
+          <StructForm :struct="value.struct" :label="label"/>
+        </ul>
 
         <ul class="list-group" v-if="value.type === 'collection'">
-          <StructForm :struct="value.child"/>
-          <li class='list-group-item'>
-            <div class="row">
-              <div class="col-sm-12 text-right">
-                <button class='my-2 mx-2 btn btn-sm btn-outline-success'>
-                  <i class="fa fa-plus"></i>
-                  Add {{ label }}
-                </button>
-              </div>
-            </div>
-          </li>
+          <StructForm :struct="value.child" :label="label"/>
         </ul>
 
         <ul class="list-group" v-if="value.type === 'array'">
