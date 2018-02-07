@@ -73,7 +73,7 @@
       </div>
 
       <div class="col-lg-12">
-        <StructViewer :structVal="model" />
+        <StructViewer :structVal="model.comp" />
       </div>
     </div>
 

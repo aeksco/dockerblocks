@@ -1,15 +1,15 @@
 
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 bg-dark">
-        <StructViewer :struct="struct" :structVal="obj"/>
-        <!-- <d3-network ref='net' :net-nodes="nodes" :net-links="links" :options="options" /> -->
+  <div class='container'>
+    <div class='row'>
+      <div class='col-lg-6 bg-dark'>
+        <StructViewer :struct='struct' :structVal='obj'/>
+        <!-- <d3-network ref='net' :net-nodes='nodes' :net-links='links' :options='options' /> -->
       </div>
 
-      <div class="col-lg-6">
+      <div class='col-lg-6'>
         <!-- <pre>{{struct}}</pre> -->
-        <StructForm :struct="struct" />
+        <StructForm :struct='struct' />
 
       </div>
     </div>
@@ -27,29 +27,54 @@ import Field from './Field'
 import D3Network from 'vue-d3-network'
 window._ = _
 
+// window.myObj = {
+//   nodes: [
+//     { id: 1, name: 'my awesome node 1' },
+//     { id: 2, name: 'my node 2' },
+//     { id: 3, name: 'orange node', _color: 'orange' },
+//     { id: 4, _color: '#0022ff' },
+//     { id: 5 },
+//     { id: 6 },
+//     { id: 7 },
+//  nodeSize   { id: 8 },
+//     { id: 9 }
+//   ],
+//   links: [
+//     { sid: 1, tid: 2 },
+//     { sid: 2, tid: 8 },
+//     { sid: 3, tid: 4 },
+//     { sid: 4, tid: 5 },
+//     { sid: 5, tid: 6 },
+//     { sid: 7, tid: 8 },
+//     { sid: 5, tid: 8 },
+//     { sid: 3, tid: 8 },
+//     { sid: 7, tid: 9 }
+//   ]
+// }
+
 window.myObj = {
-  nodes: [
-    { id: 1, name: 'my awesome node 1' },
-    { id: 2, name: 'my node 2' },
-    { id: 3, name: 'orange node', _color: 'orange' },
-    { id: 4, _color: '#0022ff' },
-    { id: 5 },
-    { id: 6 },
-    { id: 7 },
-    { id: 8 },
-    { id: 9 }
+  address: {
+    street: '2 Avenue',
+    zipcode: '10075',
+    building: '1480',
+    coord: [-73.9557413, 40.7720266]
+  },
+  borough: 'Manhattan',
+  cuisine: 'Italian',
+  grades: [
+    {
+      date: '2014-10-01',
+      grade: 'A',
+      score: 11
+    },
+    {
+      date: '2014-01-16',
+      grade: 'B',
+      score: 17
+    }
   ],
-  links: [
-    { sid: 1, tid: 2 },
-    { sid: 2, tid: 8 },
-    { sid: 3, tid: 4 },
-    { sid: 4, tid: 5 },
-    { sid: 5, tid: 6 },
-    { sid: 7, tid: 8 },
-    { sid: 5, tid: 8 },
-    { sid: 3, tid: 8 },
-    { sid: 7, tid: 9 }
-  ]
+  name: 'Vella',
+  restaurant_id: '41704620'
 }
 
 function parseStruct (obj) {
@@ -101,11 +126,11 @@ export default {
   name: 'composition_new',
   data () {
     return {
-      obj: window.myObj,
-      nodes: window.myObj.nodes,
-      links: window.myObj.links,
-      nodeSize: 20,
-      canvas: false
+      obj: window.myObj
+      // nodes: window.myObj.nodes,
+      // links: window.myObj.links,
+      // nodeSize: 20,
+      // canvas: false
     }
   },
   computed: {

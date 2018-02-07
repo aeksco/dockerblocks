@@ -12,15 +12,19 @@ const state = {
             'image': 'mongo-express',
             'container_name': 'mongoadmin',
             'depends_on': [
-              'mongo'
+              'mongo',
+              'jupyter'
             ],
             'links': [
+              'jupyter',
               'mongo'
             ],
             'ports': [
               '8081:8081'
             ],
             'environment': [
+              'ME_CONFIG_SITE_BASEURL=/mongo',
+              'ME_CONFIG_SITE_BASEURL=/mongo',
               'ME_CONFIG_SITE_BASEURL=/mongo'
             ]
           }

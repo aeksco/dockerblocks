@@ -2,10 +2,11 @@
 <template>
   <li class='list-group-item'>
     <!-- CANT iterate on root element -->
-    <div v-for="v, k in struct">
+    <div class='px-2 py-2' v-for="v, k in struct">
       <!-- {{ k }} -->
       <!-- {{ v }} -->
       <FieldViewer :label="k" :value="v" :structVal="structVal" />
+      <hr>
     </div>
   </li>
 </template>

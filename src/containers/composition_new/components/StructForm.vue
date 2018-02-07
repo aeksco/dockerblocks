@@ -1,12 +1,21 @@
 
 <template>
   <li class='list-group-item'>
-    <div class="mb-4" v-for="v, k in struct">
-      <!-- {{ k }} -->
-      <!-- {{ v }} -->
-      <Field :label="k" :value="v"/>
+
+    <div class="row" v-for="v, k in struct">
+      <div class="col-sm-12">
+
+        <div class="px-2 py-2">
+          <!-- {{ k }} -->
+          <!-- {{ v }} -->
+          <Field :label="k" :value="v"/>
+        </div>
+
+      </div>
     </div>
+
   </li>
+
 </template>
 
 <!-- // // // //  -->

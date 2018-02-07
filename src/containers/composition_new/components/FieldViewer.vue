@@ -4,11 +4,11 @@
 
     <div class="row">
 
-      <div class="col-sm-3">
+      <div class="col-sm-4 text-left">
         <label>{{label}}</label>
       </div>
 
-      <div class="col-sm-9">
+      <div class="col-sm-8 text-right">
 
         <!-- text / number value -->
         <p v-if="value.type === 'string' || value.type === 'number' ">
@@ -56,7 +56,7 @@ export default {
 
 <style type="text/css">
   li.list-group-item {
-    padding: .25rem;
+    padding: 0 .25rem;
   }
   label {
     text-transform: capitalize;
