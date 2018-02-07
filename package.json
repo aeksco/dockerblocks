@@ -21,6 +21,7 @@
     "lodash": "^4.17.4",
     "pug": "^2.0.0-rc.4",
     "vue": "^2.5.2",
+    "vue-d3-network": "^0.1.24",
     "vue-good-table": "^1.18.2",
     "vue-mc": "^0.1.1",
     "vue-meta": "^1.2.0",

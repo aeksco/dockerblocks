@@ -2,36 +2,46 @@
 <template>
   <div class="form-gorup">
 
-    <label>{{label}}</label>
+    <div class="row">
 
-    <input class='form-control' type="text" name="" v-if="value.type === 'string'">
+      <div class="col-lg-3">
+        <label>{{label}}</label>
+      </div>
 
-    <input class='form-control' type="number" name="" v-if="value.type === 'number'">
+      <div class="col-lg-9">
 
-    <StructForm :struct="value.struct" v-if="value.type === 'object'"/>
+        <input class='form-control' type="text" name="" v-if="value.type === 'string'">
 
-    <ul class="list-group" v-if="value.type === 'collection'">
-      <StructForm :struct="value.child"/>
-    </ul>
+        <input class='form-control' type="number" name="" v-if="value.type === 'number'">
 
-    <ul class="list-group" v-if="value.type === 'array'">
+        <StructForm :struct="value.struct" v-if="value.type === 'object'"/>
 
-      <ArrayInput v-model="arr" :type="value.datatype" />
+        <ul class="list-group" v-if="value.type === 'collection'">
+          <StructForm :struct="value.child"/>
+        </ul>
 
-      <!-- Text dropdown -->
-      <select class='form-control' type="text" name="" v-if="value.datatype === 'string'">
-        <option>One</option>
-        <option>Two</option>
-        <option>Three</option>
-      </select>
+        <ul class="list-group" v-if="value.type === 'array'">
 
-      <!-- Number dropdown -->
-      <select class='form-control' type="text" name="" v-if="value.datatype === 'number'">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-      </select>
-    </ul>
+          <!-- Handles Array -->
+          <ArrayInput v-model="arr" :type="value.datatype" />
+
+          <!-- Text dropdown -->
+          <select class='form-control' type="text" name="" v-if="value.datatype === 'string'">
+            <option>One</option>
+            <option>Two</option>
+            <option>Three</option>
+          </select>
+
+          <!-- Number dropdown -->
+          <select class='form-control' type="text" name="" v-if="value.datatype === 'number'">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </ul>
+
+      </div>
+    </div>
 
   </div>
 </template>
