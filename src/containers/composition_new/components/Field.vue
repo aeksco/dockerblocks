@@ -27,19 +27,6 @@
           <!-- Handles Array -->
           <ArrayInput v-model="arr" :type="value.datatype" />
 
-          <!-- Text dropdown -->
-          <!-- <select class='form-control' type="text" name="" v-if="value.datatype === 'string'"> -->
-            <!-- <option>One</option> -->
-            <!-- <option>Two</option> -->
-            <!-- <option>Three</option> -->
-          <!-- </select> -->
-
-          <!-- Number dropdown -->
-          <!-- <select class='form-control' type="text" name="" v-if="value.datatype === 'number'"> -->
-            <!-- <option>1</option> -->
-            <!-- <option>2</option> -->
-            <!-- <option>3</option> -->
-          <!-- </select> -->
         </ul>
 
       </div>
