@@ -389,8 +389,6 @@ function DiagramFunction () {
   console.log(diagram)
 }
 
+// Exports function to initialize classes & setup DOM selectors
+// TODO - abstract this file into small and smaller Vue components / Vuex observables
 export const DIAGRAM_FUNC = DiagramFunction
-// export const DIAGRAM = Diagram
-// export const CONNECTOR = Connector
-// export const NODEPORT = NodePort
-// export const NODESHAPE = NodeShape
