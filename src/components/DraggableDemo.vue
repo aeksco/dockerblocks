@@ -11,10 +11,7 @@
             <g id="node-layer">
 
               <!-- Containers -->
-              <DraggableContainer label="Process 1"/>
-              <DraggableContainer label="Process 2"/>
-              <DraggableContainer label="Process 3"/>
-              <DraggableContainer label="Process 4"/>
+              <DraggableContainer :label="each.label" v-for="each in containers" />
 
             </g>
 
@@ -49,6 +46,16 @@ export default {
   name: 'DraggableDemoComponent',
   components: {
     DraggableContainer
+  },
+  data () {
+    return {
+      containers: [
+        { label: 'Host Machine', type: 'HOST_MACHINE' },
+        { label: 'Mongo DB', type: 'CONTAINER' },
+        { label: 'Mongo Admin', type: 'CONTAINER' },
+        { label: 'Network', type: 'NETWORK' }
+      ]
+    }
   },
   mounted () {
     setTimeout(() => {

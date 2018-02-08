@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 
 .node-container
   cursor: move
@@ -52,29 +52,5 @@ export default {
 
 .node-content
   fill: #3C3C3C
-
-.port
-  cursor: pointer
-
-.port-scrim
-  fill: transparent
-
-.port-outer
-  fill: #777777
-
-.port-inner
-  fill: #202020
-
-.port-label
-  font-size: 12px
-  fill: #fff
-
-.input-field
-  .port-label
-    text-anchor: start
-
-.output-field
-  .port-label
-    text-anchor: end
 
 </style>
