@@ -71,6 +71,10 @@
 
         </div>
       </div>
+
+      <div class="col-lg-12">
+        <StructViewer :structVal="model.comp" />
+      </div>
     </div>
 
   </div>
@@ -81,9 +85,13 @@
 
 <script>
 import store from '@/store'
+import StructViewer from '../../composition_new/components/StructViewer'
 
 export default {
   props: ['model'],
+  components: {
+    StructViewer
+  },
   methods: {
     onConfirm () {
       return store.dispatch('composition/destroy', this.model._id)
