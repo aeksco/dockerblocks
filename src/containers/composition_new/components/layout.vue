@@ -63,14 +63,21 @@ window.myObj = {
   cuisine: 'Italian',
   grades: [
     {
-      date: '2014-10-01',
-      grade: 'A',
-      score: 11
-    },
-    {
       date: '2014-01-16',
       grade: 'B',
-      score: 17
+      score: 17,
+      grades: [
+        {
+          date: '2014-10-01',
+          grade: 'A',
+          score: 11
+        },
+        {
+          date: '2014-01-16',
+          grade: 'B',
+          score: 17
+        }
+      ]
     }
   ],
   name: 'Vella',
