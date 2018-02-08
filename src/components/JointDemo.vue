@@ -22,8 +22,8 @@ export default {
     /* eslint-disable no-new */
     const paper = new joint.dia.Paper({
       el: document.getElementById('paper'),
-      width: 800,
-      height: 400,
+      width: 1200,
+      height: 600,
       gridSize: 2,
       model: graph,
       snapLinks: true,
@@ -55,6 +55,8 @@ export default {
       // Custom link definition?
       /* eslint-disable no-new */
       const link = new joint.shapes.devs.Link({
+        router: { name: 'manhattan' },
+        connector: { name: 'rounded' },
         source: {
           id: source.id,
           port: sourcePort
@@ -91,7 +93,7 @@ export default {
         y: 260
       },
       /* eslint-disable */
-      inPorts: ['xy'],
+      inPorts: ['Port'],
       outPorts: ['x', 'y']
     })
 
@@ -129,7 +131,7 @@ export default {
     connect(a1, 'x', c1, 'out 1')
     connect(a1, 'y', c1, 'out 2')
     connect(c1, 'out 1', a3, 'a')
-    connect(c1, 'out 2', a3, 'b')
+    connect(c1, 'out 2', a3, 'b')//
 
     /* rounded corners */
     _.each([c1, a1, a2, a3], function (element) {
