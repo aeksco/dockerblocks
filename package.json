@@ -15,11 +15,14 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "@shopify/draggable": "^1.0.0-beta.4",
     "axios": "^0.17.0",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.0.2",
     "cytoscape": "^3.2.8",
     "cytoscape-edgehandles": "^3.2.0",
+    "d3": "^4.13.0",
+    "gsap": "^1.20.3",
     "jointjs": "^2.0.1",
     "lodash": "^4.17.4",
     "pug": "^2.0.0-rc.4",
