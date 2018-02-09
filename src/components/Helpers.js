@@ -385,6 +385,8 @@ function DiagramFunction () {
   frag.appendChild(document.querySelector('.connector'))
   const connectorElement = frag.querySelector('.connector')
   const connectorLayer = document.querySelector('#connections-layer')
+
+  // Instantiates a new Diagram class instance
   const diagram = new Diagram()
   console.log(diagram)
 }

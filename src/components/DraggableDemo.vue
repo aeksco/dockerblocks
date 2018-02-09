@@ -16,7 +16,16 @@
             </g>
 
             <!-- TODO - abstract into Diagram Connections -->
-            <g id="connections-layer"></g>
+            <g id="connections-layer">
+            </g>
+
+            <!-- <g id="connex-old"> -->
+              <!-- <g class="connector-old"> -->
+                <!-- <path d="M315 135 C 263.7 135 290.3 110 239 110" class="connector-path-outline"></path> -->
+                <!-- <path d="M315 135 C 263.7 135 290.3 110 239 110" class="connector-path"></path> -->
+                <!-- <circle cx="0" cy="0" r="4" data-drag="port_10:port" data-svg-origin="-319 -139" transform="matrix(1,0,0,1,315,135)" class="connector-handle input-handle"></circle> -->
+                <!-- <circle cx="0" cy="0" r="4" data-drag="port_5:port" data-svg-origin="-243 -114" transform="matrix(1,0,0,1,239,110)" class="connector-handle output-handle"></circle></g> -->
+            <!-- </g> -->
 
             <!-- TODO - what is this used for exactly? -->
             <g class="connector">
@@ -51,9 +60,9 @@ export default {
     return {
       containers: [
         { label: 'Host Machine', type: 'HOST_MACHINE' },
-        { label: 'Mongo DB', type: 'CONTAINER' },
-        { label: 'Mongo Admin', type: 'CONTAINER' },
-        { label: 'Network', type: 'NETWORK' }
+        { label: 'Mongo DB', type: 'CONTAINER' }
+        // { label: 'Mongo Admin', type: 'CONTAINER' },
+        // { label: 'Network', type: 'NETWORK' }
       ]
     }
   },

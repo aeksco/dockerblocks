@@ -1,6 +1,6 @@
+<!-- TODO - abstract this into smaller components -->
 <template>
   <g class="inputs">
-
     <g class="input-field" transform="translate(0, 50)">
       <Port type="input" />
       <text class="port-label" x="28" y="14">Input 1</text>
@@ -15,7 +15,6 @@
       <Port type="input" />
       <text class="port-label" x="28" y="14">Input 3</text>
     </g>
-
   </g>
 </template>
 

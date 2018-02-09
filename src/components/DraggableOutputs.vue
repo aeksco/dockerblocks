@@ -1,3 +1,4 @@
+<!-- TODO - abstract this into smaller components -->
 <template>
   <g class="outputs">
     <g class="output-field" transform="translate(0, 50)">
