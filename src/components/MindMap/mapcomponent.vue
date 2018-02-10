@@ -66,14 +66,18 @@ export default {
      * Add new class to nodes, attach drag behevior,
      * and start simulation.
      */
-    prepareEditor (svg, conns, nodes, subnodes) {
+    prepareEditor (svg, conns, nodes, subnodes, outers, inners) {
       nodes
         .attr('class', 'mindmap-node mindmap-node--editable')
-        .on('dbclick', (node) => {
+        .on('dbclick', (node, e) => {
+          console.log('dbl')
+          console.log(node)
+          console.log(e)
           node.fx = null
           node.fy = null
         })
 
+      // Setup d3Drag helper
       nodes.call(d3Drag(this.simulation, svg, nodes))
 
       // Tick the simulation 100 times
@@ -104,7 +108,7 @@ export default {
 
       // Bind data to SVG elements and set all the properties to render them
       const connections = d3Connections(svg, this.connections)
-      const { nodes, subnodes } = d3Nodes(svg, this.nodes)
+      const { nodes, subnodes, outers, inners } = d3Nodes(svg, this.nodes)
 
       nodes.append('title').text(node => node.note)
 
@@ -114,7 +118,7 @@ export default {
         .force('link').links(this.connections)
 
       if (this.editable) {
-        this.prepareEditor(svg, connections, nodes, subnodes)
+        this.prepareEditor(svg, connections, nodes, subnodes, outers, inners)
       }
 
       // Tick the simulation 100 times

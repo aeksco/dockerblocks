@@ -6,25 +6,26 @@ export default {
       'url': 'http://www.wikiwand.com/en/Python_(programming_language)',
       'fx': -13.916222252976013,
       'fy': -659.1641376795345,
-      'nodes': [{
-        'text': '',
-        'url': 'https://www.reddit.com/r/Python/',
-        'fx': 176.083777747024,
-        'fy': -665.1641376795345,
-        'nodes': [],
-        'category': 'reddit',
-        'color': 'rgba(255, 189, 10, 1.0)'
-      },
-      {
-        'text': 'source',
-        'note': 'original python implementation in c, compiles python code into byte code and interprets the byte code in a evaluation loop',
-        'url': 'https://github.com/python/cpython',
-        'fx': 176.083777747024,
-        'fy': -625.1641376795345,
-        'nodes': [],
-        'category': 'github',
-        'color': 'rgba(36, 170, 255, 1.0)'
-      }
+      'nodes': [
+        {
+          'text': 'PORT NUMBER',
+          'url': 'https://www.reddit.com/r/Python/',
+          'fx': 176.083777747024,
+          'fy': -665.1641376795345,
+          'nodes': [],
+          'category': 'reddit',
+          'color': 'rgba(255, 189, 10, 1.0)'
+        },
+        {
+          'text': 'source',
+          'note': 'original python implementation in c, compiles python code into byte code and interprets the byte code in a evaluation loop',
+          'url': 'https://github.com/python/cpython',
+          'fx': 176.083777747024,
+          'fy': -625.1641376795345,
+          'nodes': [],
+          'category': 'github',
+          'color': 'rgba(36, 170, 255, 1.0)'
+        }
       ],
       'category': 'wiki'
     },
@@ -198,6 +199,7 @@ export default {
     {
       'source': 'python',
       'target': 'basics',
+      'type': 'link',
       'curve': {
         'x': -43.5535,
         'y': 299.545
@@ -206,6 +208,7 @@ export default {
     {
       'source': 'help',
       'target': 'python',
+      'type': 'link',
       'curve': {
         'x': -78.1206,
         'y': -114.714
@@ -214,6 +217,7 @@ export default {
     {
       'source': 'basics',
       'target': 'python libraries  ️',
+      'type': 'volume',
       'curve': {
         'x': 29.6649,
         'y': 80.1111
@@ -222,6 +226,7 @@ export default {
     {
       'source': 'basics',
       'target': 'package manager',
+      'type': 'port',
       'curve': {
         'x': -103.841,
         'y': 49.5548
@@ -230,6 +235,7 @@ export default {
     {
       'source': 'package manager',
       'target': 'pip',
+      'type': 'port',
       'curve': {
         'x': -19.7824,
         'y': 57.2671
@@ -238,6 +244,7 @@ export default {
     {
       'source': 'articles',
       'target': 'help',
+      'type': 'link',
       'curve': {
         'x': -238.287,
         'y': -54.4818

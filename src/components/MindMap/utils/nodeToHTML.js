@@ -18,5 +18,8 @@ export default (node) => {
     emoji = ''
   }
 
-  return `<a id="node-${node.index}" ${href}>${node.text || ''} ${emoji}</a>`
+  return `
+    <i class='fa fa-cog fa-lg'></i>
+    <a id="node-${node.index}" ${href}>${node.text || ''} ${emoji}</a>
+  `
 }

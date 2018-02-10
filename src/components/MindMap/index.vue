@@ -42,25 +42,41 @@ $shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px
   &:focus
     outline: none
 
-.mindmap-node > a
-  background: $grey100
-  border-radius: 10px
-  box-shadow: $shadow
-  // color: $grey900
-  display: inline-block
-  font-family: 'Raleway'
-  font-size: 22px
-  margin: 0 auto
-  padding: 15px
-  text-align: center
-  text-decoration: none
-  transition: background-color .2s, color .2s ease-out
+.mindmap-node
 
-  &[href]
+  rect.outer
+    fill: #333333
+    stroke: #f3f3f3
+    stroke-width: 6px
+
     &:hover
-      background-color: $orange700
-      // color: $white
-      cursor: pointer
+      stroke: red
+
+  rect.inner
+    z-index: 99999999
+    fill: blue
+    &:hover
+      fill: red
+
+  a
+    background: $grey100
+    border-radius: 10px
+    box-shadow: $shadow
+    color: #000000
+    // display: inline-block
+    font-family: 'Raleway'
+    font-size: 22px
+    margin: 0 auto
+    padding: 15px
+    text-align: center
+    text-decoration: none
+    transition: background-color .2s, color .2s ease-out
+
+    &[href]
+      &:hover
+        background-color: $orange700
+        // color: $white
+        cursor: pointer
 
 .mindmap-node--editable
   cursor: all-scroll
@@ -83,9 +99,18 @@ $shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px
 
 .mindmap-connection
   fill: transparent
-  stroke: $grey500
+  // stroke: $grey500
   stroke-dasharray: 10px 4px
   stroke-width: 3px
+
+  &.mindmap-connection-link
+    stroke: blue
+
+  &.mindmap-connection-volume
+    stroke: green
+
+  &.mindmap-connection-port
+    stroke: red
 
 .mindmap-emoji
   height: 24px
