@@ -34,7 +34,8 @@ export default {
         {
           selector: 'node',
           style: {
-            'content': 'data(name)'
+            'content': 'data(name)',
+            'shape': 'roundrectangle'
           }
         },
 

@@ -2,6 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
+        <button class="btn btn-outline-primary" @click="addContainer()">
+          <i class="fa fa-plus mr-2"></i>
+          Add Container
+        </button>
+      </div>
+
+      <div class="col-lg-12">
 
         <!-- Start DiagramComponent -->
         <svg id="svg">
@@ -11,7 +18,7 @@
             <g id="node-layer">
 
               <!-- Containers -->
-              <DraggableContainer :label="each.label" v-for="each in containers" />
+              <DraggableContainer :container="each" v-for="each in containers" />
 
             </g>
 
@@ -60,9 +67,10 @@ export default {
     return {
       containers: [
         { label: 'Host Machine', type: 'HOST_MACHINE' },
-        { label: 'Mongo DB', type: 'CONTAINER' }
-        // { label: 'Mongo Admin', type: 'CONTAINER' },
-        // { label: 'Network', type: 'NETWORK' }
+        { label: 'Mongo DB', type: 'CONTAINER' },
+        { label: 'Mongo Admin', type: 'CONTAINER' },
+        { label: 'Network', type: 'NETWORK' },
+        { label: 'Shared Volume', type: 'VOLUME' }
       ]
     }
   },
@@ -70,6 +78,11 @@ export default {
     setTimeout(() => {
       DIAGRAM_FUNC()
     }, 500)
+  },
+  methods: {
+    addContainer () {
+      this.containers.push({ label: 'Jupyter', type: 'CONTAINER' })
+    }
   }
 }
 </script>

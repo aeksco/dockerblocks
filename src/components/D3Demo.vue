@@ -31,7 +31,7 @@ export default {
     }
   },
   mounted (createElement) {
-    var svg = d3.select(this.$el).select('svg')
+    let svg = d3.select(this.$el).select('svg')
     this.circle = svg
       .append('circle')
       .attr('cx', '250')
