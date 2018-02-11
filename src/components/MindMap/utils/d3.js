@@ -1,5 +1,6 @@
 import { mouse, drag, event, zoom, select } from 'd3'
 import { getViewBox } from './dimensions'
+import _ from 'lodash'
 
 // let path
 // let localSvg
@@ -59,6 +60,7 @@ export const d3Nodes = (svg, nodes) => {
     .attr('width', node => node.width + 40)
     .attr('height', node => node.height + 40)
     .property('outer', true)
+    .property('_id', _.uniqueId())
 
   const inners = d3nodes.append('rect')
     .attr('class', 'inner')
@@ -66,6 +68,7 @@ export const d3Nodes = (svg, nodes) => {
     .attr('height', node => node.height + 36)
     .attr('transform', 'translate(2,2)')
     .property('inner', true)
+    .property('_id', _.uniqueId())
 
   // Creates graph node inner
   // d3nodes.append('foreignObject')
@@ -183,12 +186,16 @@ function restart (path, links) {
   path.exit().remove()
 }
 
+let draggingNode = null
 export const d3Drag = (simulation, svg, nodes, links, path, drag_line) => {
   // Stores what's currently being dragged (inner, outer, null)
   // let currentlyDragging = null
   const dragStart = (node) => {
     let el = event.sourceEvent.srcElement
-
+    draggingNode = el
+    console.log(draggingNode)
+    console.log(el)
+    mousedown_node = node
     // Handles drag events on outer elements
     let outer = !!el['outer']
     let inner = !!el['inner']
@@ -210,10 +217,19 @@ export const d3Drag = (simulation, svg, nodes, links, path, drag_line) => {
     // Updates node position
   }
 
-  const dragged = (node) => {
+  function dragged (node) {
     // console.log('dragged')
     // console.log(currentlyDragging)
     let el = event.sourceEvent.srcElement
+
+    if (currentlyDragging['_id'] === el['__id']) {
+      // console.log('SAME ID')
+    } else {
+      console.log('COMPLETE LINK BETWEEN NODES')
+      // currentlyDragging = el
+      return
+    }
+
     let outer = !!el['outer']
     let inner = !!el['inner']
     if (inner || currentlyDragging === 'inner') {
@@ -221,6 +237,13 @@ export const d3Drag = (simulation, svg, nodes, links, path, drag_line) => {
       node.fy = event.y
     } else if (outer || currentlyDragging === 'outer') {
       console.log('outer dragged - todo - create link')
+      drag_line
+      .style('marker-end', 'url(#end-arrow)')
+      .classed('hidden', false)
+      // .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
+      .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mouse(this)[0] + ',' + mouse(this)[1])
+      simulation.alphaTarget(1)
+      // restart(path, connections)
     }
   }
 
@@ -236,10 +259,26 @@ export const d3Drag = (simulation, svg, nodes, links, path, drag_line) => {
 
   // Applies drag/drop edge
   function onMouseOver (d) {
-    if (!mousedown_node || d === mousedown_node) return
+    // if (!mousedown_node || d === mousedown_node) return
     console.log('mouseover')
     // enlarge target node
-    select(this).attr('transform', 'scale(1.1)')
+    // select(this).attr('transform', 'scale(1.1)')
+
+    if (event.sourceEvent) {
+      let el = event.sourceEvent.srcElement
+      console.log(el['_id'] === currentlyDragging['__id'])
+      // let outer = !!el['outer']
+      // let inner = !!el['inner']
+      if (currentlyDragging === 'inner') {
+        // node.fx = event.x
+        // node.fy = event.y
+      } else if (currentlyDragging === 'outer') {
+        console.log('COMPLETE LINK HERE')
+        console.log(d)
+      } else {
+        console.log('no currently dragging')
+      }
+    }
   }
 
   function onMouseOut (d) {
@@ -321,22 +360,23 @@ export const d3Drag = (simulation, svg, nodes, links, path, drag_line) => {
     restart(path, links)
   }
 
-  // console.log(dragStart)
-  // console.log(dragged)
-  // console.log(dragEnd)
+  console.log(dragStart)
+  console.log(dragged)
+  console.log(dragEnd)
   // console.log(drag_line)
 
   // Applies drag
+
+  nodes
+  .on('mouseover', onMouseOver)
+  .on('mouseout', onMouseOut)
+  .on('mousedownX', onMouseDown)
+  .on('mouseupX', onMouseUp)
+
   let myDragged = drag()
   .on('start', dragStart)
   .on('drag', dragged)
-  .on('end', dragEnd)
-
-  nodes.on('mouseover', onMouseOver)
-  .on('mouseout', onMouseOut)
-  .on('mousedown', onMouseDown)
-  .on('mouseup', onMouseUp)
-
+  // .on('end', dragEnd)
   return myDragged
 }
 
@@ -357,7 +397,10 @@ export const d3Dragline = (svg, nodes, connections, path, drag_line_loc) => {
   // .attr('class', 'link dragline hidden')
   // .attr('d', 'M0,0L0,0')
 
+  console.log('DRAGLINE!!!')
+
   function mousedown () {
+    console.log('SVG MOUSE DOWN')
     // prevent I-bar on drag
     // d3.event.preventDefault()
 
@@ -377,6 +420,7 @@ export const d3Dragline = (svg, nodes, connections, path, drag_line_loc) => {
   }
 
   function mousemove () {
+    console.log('SVG MOUSEMOVE')
     if (!mousedown_node) return
 
     // update drag line
@@ -386,6 +430,8 @@ export const d3Dragline = (svg, nodes, connections, path, drag_line_loc) => {
   }
 
   function mouseup () {
+    console.log('SVG MOUSEUP')
+
     if (mousedown_node) {
       // hide drag line
       drag_line_loc
@@ -400,7 +446,7 @@ export const d3Dragline = (svg, nodes, connections, path, drag_line_loc) => {
     resetMouseVars()
   }
 
-  svg.on('mousedown', mousedown)
-  .on('mousemove', mousemove)
-  .on('mouseup', mouseup)
+  svg.on('mousedownx', mousedown)
+  .on('mousemovex', mousemove)
+  .on('mouseupx', mouseup)
 }
