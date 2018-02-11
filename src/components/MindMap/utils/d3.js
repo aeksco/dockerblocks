@@ -1,5 +1,10 @@
-import { drag, event, zoom } from 'd3'
+import { mouse, drag, event, zoom, select } from 'd3'
 import { getViewBox } from './dimensions'
+
+// let path
+// let localSvg
+// let localNodes
+// let localLinks
 
 /**
  * Bind data to a <TAG>, inside a G element, inside the given root element.
@@ -30,6 +35,12 @@ export const d3Connections = (svg, connections) => (
  * and set dimensions and html.
  */
 export const d3Nodes = (svg, nodes) => {
+  const drag_line = svg.append('svg:path')
+  .attr('class', 'link dragline hidden')
+  .attr('d', 'M0,0L0,0')
+
+  const path = svg.append('svg:g').selectAll('path')
+
   const selection = svg.append('g')
     .selectAll('g')
     .data(nodes)
@@ -77,7 +88,9 @@ export const d3Nodes = (svg, nodes) => {
     nodes: d3nodes,
     subnodes: d3subnodes,
     outers: outers,
-    inners: inners
+    inners: inners,
+    path: path,
+    drag_line: drag_line
   }
 }
 
@@ -115,13 +128,64 @@ export const onTick = (conns, nodes, subnodes) => {
 /*
  * Return drag behavior to use on d3.selection.call().
  */
-export const d3Drag = (simulation, svg, nodes) => {
-  // TODO - helper function
-  // Gets 'el' from event.sourceEvent
+ // mouse event vars
+let currentlyDragging = null
+let selected_node = null
+let selected_link = null
+let mousedown_link = null
+let mousedown_node = null
+let mouseup_node = null
+let lastNodeId = null
 
+function resetMouseVars () {
+  mousedown_node = null
+  mouseup_node = null
+  mousedown_link = null
+}
+
+// This is a dumb hack, get rid of it sometime
+// function initLocal (svg, nodes, links, pathProx, drag_line_prox) {
+  // localSvg = svg
+  // localNodes = nodes
+  // localLinks = links
+  // path = pathProx
+  // drag_line = drag_line_prox
+// }
+
+function restart (path, links) {
+  console.log('RESTART')
+  // path (link) group
+  path = path.data(links)
+
+  // update existing links
+  path.classed('selected', function (d) { return d === selected_link })
+  .style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : '' })
+  .style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : '' })
+
+  // add new links
+  path.enter().append('svg:path')
+  .attr('class', 'link')
+  .classed('selected', function (d) { return d === selected_link })
+  .style('marker-start', function (d) { return d.left ? 'url(#start-arrow)' : '' })
+  .style('marker-end', function (d) { return d.right ? 'url(#end-arrow)' : '' })
+  .on('mousedown', function (d) {
+    if (event.ctrlKey) return
+
+    // select link
+    mousedown_link = d
+    if (mousedown_link === selected_link) selected_link = null
+    else selected_link = mousedown_link
+    selected_node = null
+    restart(path, links)
+  })
+
+  // remove old links
+  path.exit().remove()
+}
+
+export const d3Drag = (simulation, svg, nodes, links, path, drag_line) => {
   // Stores what's currently being dragged (inner, outer, null)
-  let currentlyDragging = null
-
+  // let currentlyDragging = null
   const dragStart = (node) => {
     let el = event.sourceEvent.srcElement
 
@@ -170,10 +234,110 @@ export const d3Drag = (simulation, svg, nodes) => {
     svg.attr('viewBox', getViewBox(nodes.data()))
   }
 
-  return drag()
-    .on('start', dragStart)
-    .on('drag', dragged)
-    .on('end', dragEnd)
+  // Applies drag/drop edge
+  function onMouseOver (d) {
+    if (!mousedown_node || d === mousedown_node) return
+    console.log('mouseover')
+    // enlarge target node
+    select(this).attr('transform', 'scale(1.1)')
+  }
+
+  function onMouseOut (d) {
+    if (!mousedown_node || d === mousedown_node) return
+    console.log('mouseout')
+    // unenlarge target node
+    select(this).attr('transform', '')
+  }
+  function onMouseDown (d) {
+    if (event.ctrlKey) return
+    if (currentlyDragging) return
+
+    console.log('mousedown')
+
+    // select node
+    mousedown_node = d
+    if (mousedown_node === selected_node) selected_node = null
+    else selected_node = mousedown_node
+    selected_link = null
+
+    console.log('DRAG LINE')
+
+    // reposition drag line
+    drag_line
+    .style('marker-end', 'url(#end-arrow)')
+    .classed('hidden', false)
+    .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y)
+
+    restart(path, links)
+  }
+  function onMouseUp (d) {
+    if (!mousedown_node) return
+    console.log('mouseup')
+
+    // needed by FF
+    drag_line
+    .classed('hidden', true)
+    .style('marker-end', '')
+
+    // check for drag-to-self
+    mouseup_node = d
+    if (mouseup_node === mousedown_node) {
+      resetMouseVars()
+      return
+    }
+
+    // unenlarge target node
+    select(this).attr('transform', '')
+
+    // add link to graph (update if exists)
+    // NB: links are strictly source < target arrows separately specified by booleans
+    var source, target, direction
+    if (mousedown_node.id < mouseup_node.id) {
+      source = mousedown_node
+      target = mouseup_node
+      direction = 'right'
+    } else {
+      source = mouseup_node
+      target = mousedown_node
+      direction = 'left'
+    }
+
+    let link
+    link = links.filter(function (l) {
+      return (l.source === source && l.target === target)
+    })[0]
+
+    if (link) {
+      link[direction] = true
+    } else {
+      link = { source: source, target: target, left: false, right: false }
+      link[direction] = true
+      links.push(link)
+    }
+
+    // select new link
+    selected_link = link
+    selected_node = null
+    restart(path, links)
+  }
+
+  // console.log(dragStart)
+  // console.log(dragged)
+  // console.log(dragEnd)
+  // console.log(drag_line)
+
+  // Applies drag
+  let myDragged = drag()
+  .on('start', dragStart)
+  .on('drag', dragged)
+  .on('end', dragEnd)
+
+  nodes.on('mouseover', onMouseOver)
+  .on('mouseout', onMouseOut)
+  .on('mousedown', onMouseDown)
+  .on('mouseup', onMouseUp)
+
+  return myDragged
 }
 
 /* eslint-enable no-param-reassign */
@@ -187,3 +351,56 @@ export const d3PanZoom = el => (
       el.selectAll('svg > g').attr('transform', event.transform)
     ))
 )
+
+export const d3Dragline = (svg, nodes, connections, path, drag_line_loc) => {
+  // drag_line = svg.append('svg:path')
+  // .attr('class', 'link dragline hidden')
+  // .attr('d', 'M0,0L0,0')
+
+  function mousedown () {
+    // prevent I-bar on drag
+    // d3.event.preventDefault()
+
+    // because :active only works in WebKit?
+    svg.classed('active', true)
+
+    if (event.ctrlKey || mousedown_node || mousedown_link) return
+
+    // insert new node at point
+    let point = mouse(this)
+    let node = { id: ++lastNodeId, reflexive: false }
+    node.x = point[0]
+    node.y = point[1]
+    nodes.push(node)
+
+    restart(path, connections)
+  }
+
+  function mousemove () {
+    if (!mousedown_node) return
+
+    // update drag line
+    drag_line_loc.attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mouse(this)[0] + ',' + mouse(this)[1])
+
+    restart(path, connections)
+  }
+
+  function mouseup () {
+    if (mousedown_node) {
+      // hide drag line
+      drag_line_loc
+      .classed('hidden', true)
+      .style('marker-end', '')
+    }
+
+    // because :active only works in WebKit?
+    svg.classed('active', false)
+
+    // clear mouse event vars
+    resetMouseVars()
+  }
+
+  svg.on('mousedown', mousedown)
+  .on('mousemove', mousemove)
+  .on('mouseup', mouseup)
+}
